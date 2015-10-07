@@ -2,7 +2,7 @@
  * SMS Control Light
  * 
  * You should insert a SIM car and the GPRS antenna 
- * Send a "onxx" or "ONxx" to lighten the led for xx s
+ * Send a "onxx" or "ONxx" to lighten the led for xx s.
  * Send a "off" or "OFF" to make the led off
  *
  * LED connect to D3
@@ -18,6 +18,7 @@ int onTime = 0;
 
 void setup()
 {
+    pinMode(pinLed,OUTPUT);
     Serial.begin(9600);
     
     while(!LSMS.ready())
@@ -65,11 +66,11 @@ void loop()
         {
             onTime = 0;
             
-            for(int i=2; i<len; i++)
+            for(int i=2; i<4; i++)
             {
                 if((dtaget[i]>='0') && (dtaget[i]<='9'))
                 {
-                    onTime = 10*(i-2) + (dtaget[i]-'0');
+                    onTime = (pow(10,(3-i)) * (dtaget[i]-'0') + onTime);
                 }
                 else
                 {
